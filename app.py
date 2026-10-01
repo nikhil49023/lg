@@ -1,19 +1,13 @@
 import os
 
-from groq import Groq
+from dotenv import load_dotenv
+from langchain_groq import ChatGroq 
 
-client = Groq(
-    api_key=os.environ.get("GROQ_API_KEY"),
-)
+load_dotenv() 
 
-chat_completion = client.chat.completions.create(
-    messages=[
-        {
-            "role": "user",
-            "content": "hi",
-        }
-    ],
+llm = ChatGroq(
     model="openai/gpt-oss-20b",
+    temperature = 1.2
 )
-
-print(chat_completion.choices[0].message.content)
+response = llm.invoke("confirm you are online and tell me your name in one sentence.")
+print(response.content)
